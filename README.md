@@ -7,3 +7,4 @@ Plataforma que visa estreitar a relação do cidadão com órgãos do poder púb
 ## Integrantes
 Hugo Alves
 Marcelo Maia
+Matheus Fidelis
