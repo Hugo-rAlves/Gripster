@@ -1,7 +1,8 @@
 package org.ufrpe.inovagovlab.decisoestce.model;
 
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 
 @Entity
 @IdClass(LimiteDeGastosPK.class)

@@ -13,8 +13,8 @@ public interface LimiteDeGastosRepository extends JpaRepository<LimiteDeGastos, 
     List<LimiteDeGastos> findByNrProcesso(String idProcesso);
     List<LimiteDeGastos> findByNrProcessoOrderByInCumpridoAsc(String idProcesso);
 
-    @Query("SELECT count(lg) FROM LimiteDeGastos lg where nr_processo = ?1 and in_cumprido = 0")
+    @Query(value = "SELECT count(lg) FROM LimiteDeGastos lg where nr_processo = ?1 and in_cumprido = 0", nativeQuery = true)
     Integer countReprovacoes(String id);
-    @Query("SELECT lg.dsTipoLimite FROM LimiteDeGastos lg where nr_processo = ?1 and in_cumprido = 0")
+    @Query(value = "SELECT lg.dsTipoLimite FROM LimiteDeGastos lg where nr_processo = ?1 and in_cumprido = 0", nativeQuery = true)
     List<String> findNaoCumpridos(String id);
 }

@@ -1,12 +1,10 @@
 package org.ufrpe.inovagovlab.decisoestce.model;
 
 
-import javax.persistence.*;
-
+import jakarta.persistence.*;
 @Entity
 @Table(name = "dicionario")
 public class Dicionario {
-
 
     @Id
     private String palavra;
