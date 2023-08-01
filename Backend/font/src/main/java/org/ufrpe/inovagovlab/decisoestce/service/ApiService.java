@@ -1,34 +1,53 @@
 package org.ufrpe.inovagovlab.decisoestce.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.GestoresDTO;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.MeuTextoDTO;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.MeuTextoSimplificadoDTO;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.ProcessoDTO;
+import org.ufrpe.inovagovlab.decisoestce.mapper.MapperApi;
+import org.ufrpe.inovagovlab.decisoestce.model.Processo;
+import org.ufrpe.inovagovlab.decisoestce.model.dto.*;
+import org.ufrpe.inovagovlab.decisoestce.repository.ConsiderandoRepository;
+import org.ufrpe.inovagovlab.decisoestce.repository.DeterminacaoRepository;
+import org.ufrpe.inovagovlab.decisoestce.repository.ProcessoRepository;
+import org.ufrpe.inovagovlab.decisoestce.repository.RecomendacaoRepository;
 
 import java.util.List;
 
 @Service
 public class ApiService {
-    public List<ProcessoDTO> getAllProcessos() {
+
+    @Autowired
+    private ProcessoRepository processoRepository;
+    @Autowired
+    private MapperApi map;
+    @Autowired
+    private ConsiderandoRepository considerandoRepository;
+    @Autowired
+    private RecomendacaoRepository recomendacaoRepository;
+    @Autowired
+    private DeterminacaoRepository determinacaoRepository;
+
+
+
+
+    public List<String> getAllIdsProcessos() throws Exception {
+        List<String> idsProcessos = processoRepository.getAllIdsProcessos().orElseThrow(() -> new Exception("Dado não encontrado"));
         return null;
     }
 
-    public List<GestoresDTO> getGestores() {
-        return null;
+    public List<GestoresDTO> getProcessosGestor() {
+        List<String> gestores = processoRepository.findGestoresPrestacaoDeContas().orElseThrow(()->new UsernameNotFoundException("Usuários não encontrados"));
+        return map.mapperNomesToGestoresDTO(gestores);
     }
 
-    public List<GestoresDTO> getGestores(String id) {
-        return null;
+    public List<CardProcessoList> getProcessosGestor(String id) {
+        List<Processo> processosDeUmGestor = processoRepository.findProcessosGestor(id).orElseThrow(() -> new UsernameNotFoundException("Gestor não encontrado"));
+        return map.mapProcessoToCardProcessoList(processosDeUmGestor);
     }
 
-    public List<GestoresDTO> getMunicipios() {
-        return  null;
-    }
-
-    public List<GestoresDTO> getMunicipios(String id) {
-        return  null;
-
+    public List<MunicipiosDto> getMunicipios() {
+        List<String> municipiosDtos = processoRepository.findMunicipiosPrestacaoDeContas().orElseThrow(()-> new RuntimeException("Erro"));
+        return  map.mapperMunicipioToDto(municipiosDtos);
     }
 
     public List<MeuTextoDTO> getMeusTextos() {
@@ -44,5 +63,52 @@ public class ApiService {
     }
 
     public void favoritarTexto(String id) {
+    }
+
+    public List<CardProcessoList> getProcessosMunicipio(String id) {
+        List<Processo> processosDeUmMunicipio = processoRepository.findProcessosMunicipio(id).orElseThrow(() -> new UsernameNotFoundException("Gestor não encontrado"));
+        return map.mapProcessoToCardProcessoList(processosDeUmMunicipio);
+
+    }
+
+    public CardInformacoesGeraisDto getQuadroInformacaoGeral(String id) {
+        Processo processo = processoRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Processo não encontrado"));
+        CardInformacoesGeraisDto cardDto = map.mapperProcessoToInfGeralDto(processo);
+
+        return cardDto;
+
+    }
+
+    public  CardDecisaoSimplificada getSimplificacaoDecisao(String id) {
+        String simplConsiracoes = considerandoRepository.getSimplificacao(id).orElseThrow();
+        String simplRecomendacoes = recomendacaoRepository.getSimplificacao(id).orElseThrow();
+        String simplDeterminacoes = determinacaoRepository.getSimplificacao(id).orElseThrow();
+
+        CardDecisaoSimplificada card = new CardDecisaoSimplificada();
+
+        card.setTextoSimplificadoRecomendacao(simplRecomendacoes);
+        card.setTextoSimplificadoDeterminando(simplDeterminacoes);
+        card.setTextoSimplificadoConsiderando(simplConsiracoes);
+
+        return card;
+    }
+
+    public TextoCompletoDTO getTextoCompletoProcesso(String id) {
+        return null;
+    }
+
+    public Integer getNumeroDeProcessos() {
+        Integer numeroProcessos = processoRepository.countNumeroProcessosPrestacaoDeContas();
+        return numeroProcessos;
+    }
+
+    public Integer getNumeroDeMunicipios() {
+        Integer numeroMunicipios = processoRepository.countNumeroMunicipios();
+        return numeroMunicipios;
+    }
+
+    public Integer getNumeroGestores() {
+        Integer numeroGestores = processoRepository.countNumeroGestores();
+        return numeroGestores;
     }
 }

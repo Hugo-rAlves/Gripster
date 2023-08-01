@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.ufrpe.inovagovlab.decisoestce.model.Processo;
+import org.ufrpe.inovagovlab.decisoestce.model.dto.GestoresDTO;
+import org.ufrpe.inovagovlab.decisoestce.model.dto.MunicipiosDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -55,9 +57,24 @@ public interface ProcessoRepository extends JpaRepository<Processo, String> {
     @Query(value = "SELECT * FROM processo WHERE tipo='governo' and modalidade ='prestação de contas' and data_julgamento between ?1 and ?2", nativeQuery = true)
     List<Processo> findByDataJulgamentoBetween(LocalDate dataInicial, LocalDate dataFinal);
 
-    /*
-    @Query("SELECT stock " +
-            " FROM Stock stock " +
-            " WHERE stock.name = :name AND stock.date = :date AND stock.id <> :id")
-    Optional<Stock> findByStockUpdate(String name, LocalDate date, Long id);*/
+    @Query(value = "SELECT id FROM PROCESSO WHERE tipo = 'governo' and modalidade = 'prestação de contas'", nativeQuery = true)
+    Optional<List<String>> getAllIdsProcessos();
+
+    @Query(value = "SELECT distinct nome_pessoa from processo where tipo ='governo' and modalidade='prestação de contas'", nativeQuery = true)
+    Optional<List<String>> findGestoresPrestacaoDeContas();
+
+    @Query(value = "select * from processo where tipo='governo' and modalidade = 'prestação de contas' and nome_pessoa= ?1 ;", nativeQuery = true)
+    Optional<List<Processo>> findProcessosGestor(String nomePessoa);
+
+    @Query(value = "select nome_municipio_principal from processo where tipo='governo' and modalidade='prestação de contas';", nativeQuery = true)
+    Optional<List<String>> findMunicipiosPrestacaoDeContas();
+    @Query(value = "select * from processo where tipo='governo' and modalidade = 'prestação de contas' and nome_municipio_principal= ?1 ;", nativeQuery = true)
+    Optional<List<Processo>> findProcessosMunicipio(String id);
+
+    @Query(value = "select count(*) from processo where tipo='governo' and modalidade ='prestação de contas'", nativeQuery = true)
+    Integer countNumeroProcessosPrestacaoDeContas();
+    @Query(value = "select count(distinct nome_municipio_principal) from processo where tipo='governo' and modalidade ='prestação de contas'", nativeQuery = true)
+    Integer countNumeroMunicipios();
+    @Query(value = "select count(distinct nome_pessoa) from processo where tipo='governo' and modalidade ='prestação de contas'", nativeQuery = true)
+    Integer countNumeroGestores();
 }

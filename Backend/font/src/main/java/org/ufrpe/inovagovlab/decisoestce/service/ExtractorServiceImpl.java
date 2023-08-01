@@ -942,4 +942,8 @@ public class ExtractorServiceImpl{
     }
 
 
+    public String simplificacao() {
+
+        return "";
+    }
 }

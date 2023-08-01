@@ -89,9 +89,10 @@ public class ExtractorController {
         return "main";
     }
 
-    @GetMapping("/run/teste")
-    public ResponseEntity<String> teste() {
-       return ResponseEntity.ok("Ok");
+    @GetMapping("/run/simplificacao")
+    public String runSimplificacaoConsiderando(){
+        String resultado = extractorService.simplificacao();
+        return "main";
     }
 
 

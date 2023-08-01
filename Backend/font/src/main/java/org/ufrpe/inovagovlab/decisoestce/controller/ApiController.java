@@ -2,12 +2,10 @@ package org.ufrpe.inovagovlab.decisoestce.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.MeuTextoSimplificadoDTO;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.GestoresDTO;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.MeuTextoDTO;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.ProcessoDTO;
+import org.ufrpe.inovagovlab.decisoestce.model.dto.*;
 import org.ufrpe.inovagovlab.decisoestce.service.ApiService;
 
 import java.util.List;
@@ -20,71 +18,64 @@ public class ApiController {
     private ApiService apiService;
 
     @GetMapping(value = "/get-numeros-processos-pretacao-de-contas")
-    public ResponseEntity<?> getNrsProcessos(){
-        List<ProcessoDTO> buscarTodosOsProcessos = apiService.getAllProcessos();
+    public ResponseEntity<?> getNrsProcessos() throws Exception {
+        List<String> buscarTodosOsProcessos = apiService.getAllIdsProcessos();
         return ResponseEntity.ok(buscarTodosOsProcessos);
     }
-    @GetMapping(value = "/get-consideracoes-original-processo-pretacao-de-contas")
-    public ResponseEntity<?> getConsideracoesProcessos(){
-        List<ProcessoDTO> buscarTodosOsProcessos = apiService.getAllProcessos();
+    @GetMapping(value = "/get-numero-processos")
+    public ResponseEntity<?> getNumeroProcessos(){
+        Integer numeroDeProcessos = apiService.getNumeroDeProcessos();
+        return ResponseEntity.ok(numeroDeProcessos);
+    }
+    @GetMapping(value = "/get-numero-municipios")
+    public ResponseEntity<?> getNumeroMunicipios(){
+        Integer buscarTodosOsProcessos = apiService.getNumeroDeMunicipios();
         return ResponseEntity.ok(buscarTodosOsProcessos);
     }
-    @GetMapping(value = "/get-consideracoes-simplificadas-processo-pretacao-de-contas")
-    public ResponseEntity<?> getConsideracoesSimplificadasProcessos(){
-        List<ProcessoDTO> buscarTodosOsProcessos = apiService.getAllProcessos();
-        return ResponseEntity.ok(buscarTodosOsProcessos);
+    @GetMapping(value = "/get-numero-gestores")
+    public ResponseEntity<?> getNumeroGestores(){
+        Integer numeroGestores = apiService.getNumeroGestores();
+        return ResponseEntity.ok(numeroGestores);
     }
-    @GetMapping(value = "/get-determinacoes-processo-pretacao-de-contas")
-    public ResponseEntity<?> getDeterminacoesProcessos(){
-        List<ProcessoDTO> buscarTodosOsProcessos = apiService.getAllProcessos();
-        return ResponseEntity.ok(buscarTodosOsProcessos);
-    }
-    @GetMapping(value = "/get-painel-de-informacao-processo-pretacao-de-contas")
-    public ResponseEntity<?> getInformationBoardProcessos(){
-        List<ProcessoDTO> buscarTodosOsProcessos = apiService.getAllProcessos();
-        return ResponseEntity.ok(buscarTodosOsProcessos);
-    }
-    @GetMapping(value = "/get-gestores")
+    @GetMapping(value = "/get-gestores", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getGestores(){
-        List<GestoresDTO> gestores = apiService.getGestores();
+        List<GestoresDTO> gestores = apiService.getProcessosGestor();
         return ResponseEntity.ok(gestores);
     }
-    @GetMapping(value = "/get-gestores/{id}")
-    public ResponseEntity<?> getGestor(@PathVariable String id){
-        List<GestoresDTO> gestores = apiService.getGestores(id);
-        return ResponseEntity.ok(gestores);
-    }
-    @GetMapping(value = "/get-municipios")
+    @GetMapping(value = "/get-municipios", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getMunicipios(){
-        List<GestoresDTO> gestores = apiService.getMunicipios();
+        List<MunicipiosDto> gestores = apiService.getMunicipios();
         return ResponseEntity.ok(gestores);
     }
-    @GetMapping(value = "/get-municipios/{id}")
+    @GetMapping(value = "/get-texto-completo/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getTextoCompletoProcesso(@PathVariable String id){
+        TextoCompletoDTO textoCompleto = apiService.getTextoCompletoProcesso(id);
+        return ResponseEntity.ok(textoCompleto);
+    }
+    @GetMapping(value = "/get-informacoes-gerais-processo/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getInformationBoardProcessos(@PathVariable String id){
+        CardInformacoesGeraisDto informationBoard = apiService.getQuadroInformacaoGeral(id);
+        return ResponseEntity.ok(informationBoard);
+    }
+    @GetMapping(value = "/get-simplificacao-decisao/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getSimplificacaoDecisao(@PathVariable String id){
+        CardDecisaoSimplificada decisaoSimplificada = apiService.getSimplificacaoDecisao(id);
+        return ResponseEntity.ok(decisaoSimplificada);
+    }
+    @GetMapping(value = "/get-processos-gestor/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getGestor(@PathVariable String id){
+        List<CardProcessoList> gestores = apiService.getProcessosGestor(id);
+        return ResponseEntity.ok(gestores);
+    }
+    @GetMapping(value = "/get-processos-municipio/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getMunicipio(@PathVariable String id){
-        List<GestoresDTO> gestores = apiService.getMunicipios(id);
+        List<CardProcessoList> gestores = apiService.getProcessosMunicipio(id);
         return ResponseEntity.ok(gestores);
     }
-    @GetMapping(value = "/get-meus-textos")
-    public ResponseEntity<?> getMeusTextos(){
-        List<MeuTextoDTO> meusTextos = apiService.getMeusTextos();
-        return ResponseEntity.ok(meusTextos);
-    }
-    @GetMapping(value = "/get-meus-textos/{id}")
-    public ResponseEntity<?> getMeusTexto(@PathVariable String id){
-        List<MeuTextoDTO> meusTextos = apiService.getMeusTextos(id);
-        return ResponseEntity.ok(meusTextos);
-    }
-    @PostMapping(value = "/salvar-meu-texto")
-    public ResponseEntity<?> salvarMeuTexto(@RequestBody MeuTextoDTO meuTextoDTO){
-        MeuTextoSimplificadoDTO textoSimplificado = apiService.salvarMeuTexto(meuTextoDTO);
-        return ResponseEntity.ok(textoSimplificado);
-    }
-    @PostMapping(value = "/favoritar-texto-tribunal/{id}")
+    @PostMapping(value = "/favoritar-texto-tribunal/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> favoritarTextoDoTribunal(@PathVariable String id){
         apiService.favoritarTexto(id);
         return ResponseEntity.ok("Texto Favoritado");
     }
-
-
 
 }

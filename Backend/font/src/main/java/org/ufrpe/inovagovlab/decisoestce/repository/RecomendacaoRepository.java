@@ -11,4 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface RecomendacaoRepository extends JpaRepository<Recomendacao, String> {
+    @Query(value = "select sumario from recomendacao where id_processo = ?1 ;", nativeQuery = true)
+    Optional<String> getSimplificacao(String id);
 }
