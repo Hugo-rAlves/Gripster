@@ -22,7 +22,7 @@ public class ApiController {
         List<String> buscarTodosOsProcessos = apiService.getAllIdsProcessos();
         return ResponseEntity.ok(buscarTodosOsProcessos);
     }
-    @GetMapping(value = "/get-numero-processos")
+    @GetMapping(value = "/get-processos")
     public ResponseEntity<?> getNumeroProcessos(){
         Integer numeroDeProcessos = apiService.getNumeroDeProcessos();
         return ResponseEntity.ok(numeroDeProcessos);

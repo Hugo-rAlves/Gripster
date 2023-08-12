@@ -1,7 +1,7 @@
 package org.ufrpe.inovagovlab.decisoestce.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.ufrpe.inovagovlab.decisoestce.mapper.MapperApi;
 import org.ufrpe.inovagovlab.decisoestce.model.Processo;
@@ -32,16 +32,16 @@ public class ApiService {
 
     public List<String> getAllIdsProcessos() throws Exception {
         List<String> idsProcessos = processoRepository.getAllIdsProcessos().orElseThrow(() -> new Exception("Dado não encontrado"));
-        return null;
+        return idsProcessos;
     }
 
     public List<GestoresDTO> getProcessosGestor() {
-        List<String> gestores = processoRepository.findGestoresPrestacaoDeContas().orElseThrow(()->new UsernameNotFoundException("Usuários não encontrados"));
+        List<String> gestores = processoRepository.findGestoresPrestacaoDeContas().orElseThrow();
         return map.mapperNomesToGestoresDTO(gestores);
     }
 
     public List<CardProcessoList> getProcessosGestor(String id) {
-        List<Processo> processosDeUmGestor = processoRepository.findProcessosGestor(id).orElseThrow(() -> new UsernameNotFoundException("Gestor não encontrado"));
+        List<Processo> processosDeUmGestor = processoRepository.findProcessosGestor(id).orElseThrow();
         return map.mapProcessoToCardProcessoList(processosDeUmGestor);
     }
 
@@ -66,13 +66,13 @@ public class ApiService {
     }
 
     public List<CardProcessoList> getProcessosMunicipio(String id) {
-        List<Processo> processosDeUmMunicipio = processoRepository.findProcessosMunicipio(id).orElseThrow(() -> new UsernameNotFoundException("Gestor não encontrado"));
+        List<Processo> processosDeUmMunicipio = processoRepository.findProcessosMunicipio(id).orElseThrow();
         return map.mapProcessoToCardProcessoList(processosDeUmMunicipio);
 
     }
 
     public CardInformacoesGeraisDto getQuadroInformacaoGeral(String id) {
-        Processo processo = processoRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Processo não encontrado"));
+        Processo processo = processoRepository.findById(id).orElseThrow();
         CardInformacoesGeraisDto cardDto = map.mapperProcessoToInfGeralDto(processo);
 
         return cardDto;
