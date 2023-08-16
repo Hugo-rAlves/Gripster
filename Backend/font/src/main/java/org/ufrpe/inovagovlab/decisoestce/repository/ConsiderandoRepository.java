@@ -16,4 +16,7 @@ public interface ConsiderandoRepository extends JpaRepository<Considerando, Stri
 
     @Query(value = "select sumario from considerando where id_processo = ?1 ;", nativeQuery = true)
     Optional<String> getSimplificacao(String id);
+
+    @Query(value = "select texto_limpo from considerando where id_processo= ?1", nativeQuery = true)
+    Optional<String> getTextoCompleto(String id);
 }

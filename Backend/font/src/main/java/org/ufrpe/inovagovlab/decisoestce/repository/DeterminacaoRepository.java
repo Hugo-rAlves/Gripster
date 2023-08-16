@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface DeterminacaoRepository extends JpaRepository<Determinacao, String> {
     @Query(value = "select sumario from determinacao where id_processo = ?1 ;", nativeQuery = true)
     Optional<String> getSimplificacao(String id);
+
+    @Query(value = "select texto_limpo from determinacao where id_processo = ?1", nativeQuery = true)
+    Optional<String> getTextoCompleto(String id);
 }

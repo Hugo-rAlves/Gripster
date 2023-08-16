@@ -11,6 +11,8 @@ import org.ufrpe.inovagovlab.decisoestce.repository.DeterminacaoRepository;
 import org.ufrpe.inovagovlab.decisoestce.repository.ProcessoRepository;
 import org.ufrpe.inovagovlab.decisoestce.repository.RecomendacaoRepository;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -37,6 +39,7 @@ public class ApiService {
 
     public List<GestoresDTO> getProcessosGestor() {
         List<String> gestores = processoRepository.findGestoresPrestacaoDeContas().orElseThrow();
+        Collections.sort(gestores);
         return map.mapperNomesToGestoresDTO(gestores);
     }
 
@@ -47,6 +50,7 @@ public class ApiService {
 
     public List<MunicipiosDto> getMunicipios() {
         List<String> municipiosDtos = processoRepository.findMunicipiosPrestacaoDeContas().orElseThrow(()-> new RuntimeException("Erro"));
+        Collections.sort(municipiosDtos);
         return  map.mapperMunicipioToDto(municipiosDtos);
     }
 
@@ -94,7 +98,22 @@ public class ApiService {
     }
 
     public TextoCompletoDTO getTextoCompletoProcesso(String id) {
-        return null;
+        String texto = "";
+        TextoCompletoDTO textoCompletoDTO = new TextoCompletoDTO();
+
+        texto = considerandoRepository.getTextoCompleto(id).orElseThrow();
+        if(texto != null){
+            textoCompletoDTO.setConsiderandos(Arrays.asList(texto.split("#####")));
+        }
+        texto = recomendacaoRepository.getTextoCompleto(id).orElseThrow();
+        if(texto != null) {
+            textoCompletoDTO.setRecomendacoes(Arrays.asList(texto.split("#####")));
+        }
+        texto = determinacaoRepository.getTextoCompleto(id).orElseThrow();
+        if(texto != null){
+            textoCompletoDTO.setDeterminacoes(Arrays.asList(texto.split("#####")));
+        }
+        return textoCompletoDTO;
     }
 
     public Integer getNumeroDeProcessos() {

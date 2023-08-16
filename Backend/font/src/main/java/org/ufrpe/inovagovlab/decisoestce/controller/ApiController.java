@@ -48,10 +48,11 @@ public class ApiController {
         return ResponseEntity.ok(gestores);
     }
     @GetMapping(value = "/get-texto-completo/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getTextoCompletoProcesso(@PathVariable String id){
+    public ResponseEntity<?> getTextoCompletoProcessoConsiderando(@PathVariable String id){
         TextoCompletoDTO textoCompleto = apiService.getTextoCompletoProcesso(id);
         return ResponseEntity.ok(textoCompleto);
     }
+
     @GetMapping(value = "/get-informacoes-gerais-processo/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getInformationBoardProcessos(@PathVariable String id){
         CardInformacoesGeraisDto informationBoard = apiService.getQuadroInformacaoGeral(id);
