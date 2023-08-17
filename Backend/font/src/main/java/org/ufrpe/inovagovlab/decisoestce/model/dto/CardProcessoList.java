@@ -12,4 +12,5 @@ public class CardProcessoList {
     private String resultadoDecisao;
     private LocalDate dataDecisao;
     private String idDecisao;
+    private String nomePessoa;
 }

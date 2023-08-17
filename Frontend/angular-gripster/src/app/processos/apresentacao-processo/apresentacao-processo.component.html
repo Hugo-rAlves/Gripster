@@ -3,9 +3,9 @@
     <!-- As "linhas" de coisas na tela são divididas em linhas -->
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card text-white bg-dark mb-3" style="margin: 20px 0px;">
                 <div class="card-body">
-                    <h1 class="no-margins">Nome</h1>
+                    <h1 class="no-margins">{{nome}}</h1>
                 </div>
             </div>
         </div>
@@ -14,21 +14,37 @@
     <div class="row">
         <!-- dentro das linhas se coloca quadros com tamanho de colunas que devem somar tamanho 12 -->
         <div class="col-md-6" *ngFor="let processo of apresentacoes">
-            <div class="card">
+            <div class="card" style="margin: 10px 0px;">
                 <div class="card-header">
-                    <b><h5>{{processo.orgaoReferenteDecisao}}</h5></b>
-                    <label class="pull-right font-bold text-success">Ano: {{processo.anoEmJulgamento}}</label>
-                    <br>
-                    <h5>{{processo.cidade}}</h5>
+                    <div class="row">
+                        <div class="col-8" style="font-size: 20px;">
+                            <b>{{processo.orgaoReferenteDecisao}}</b>
+                            <br>
+                            <b>{{processo.nomePessoa}}</b>
+                        </div>
+                        <div class="col-4" style="text-align: right;">
+                            <label class="pull-right font-bold text-success">Ano: {{processo.anoEmJulgamento}}</label>
+                        </div>
+                        
+                    </div>                    
+                  
+                  
                 </div>
                 <div class="card-body" style="padding-top: 0px;">
-                    <h2 class="no-margins">{{processo.resultadoDecisao}}</h2>
-                    <a [href]="'/processo/'+processo.idDecisao" class="btn btn-block btn-outline btn-primary" style="margin-top: 10px;">Ver processo</a>
+                    <div class="row">
+                        <h5>Município: {{processo.cidade}}</h5>
+                        <h2 class="no-margins">{{processo.resultadoDecisao}}</h2>
+                    </div>
+                    <div class="row">
+                        <a [href]="'/processo/'+processo.idDecisao" class="btn btn-block btn-outline btn-primary" style="margin-top: 10px;"><b>Ver processo</b></a>
+
+                    </div>
+                    
                 </div>
                 <div class="ibox-footer">
                     Data da decisão:
                     <strong>
-                        <span class="text-success" th:text="${#temporals.format(processo.getDataJulgamento(),'dd/MM/yyyy')}">01/01/2022</span>
+                        <span class="text-success" th:text="${#temporals.format(processo.getDataJulgamento(),'dd/MM/yyyy')}">{{processo.dataDecisao}}</span>
                     </strong>
                 </div>
             </div>

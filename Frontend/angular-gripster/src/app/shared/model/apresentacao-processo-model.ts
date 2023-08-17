@@ -5,5 +5,6 @@ class ApresentaProcesso{
     resultadoDecisao:String;
     dataDecisao:String;
     idDecisao:String;
+    nomePessoa:String;
 }
 export default ApresentaProcesso;

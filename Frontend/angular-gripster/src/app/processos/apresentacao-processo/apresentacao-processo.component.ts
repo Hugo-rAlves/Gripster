@@ -13,6 +13,7 @@ export class ApresentacaoProcessoComponent {
   gestor:String;
   @Input()
   municipio:String;
+  nome:String;
 
   apresentacoes: ApresentaProcesso[] = []
   
@@ -26,13 +27,14 @@ export class ApresentacaoProcessoComponent {
   }
 
   async fetchApresentacaoProcessos(gestor: String, municipio:String) {
-    console.log('gestor: '+gestor)
-    console.log('municipio: '+ municipio)
+
     if(municipio === 'vazio' && gestor.length>0 ){
       this.apresentacoes = await this.service.getApresentacoesProcessosGestor(gestor);
+      this.nome = gestor
     }
     else if (municipio.length > 0 && gestor === 'vazio'){
       this.apresentacoes = await this.service.getApresentacoesProcessosMunicipio(municipio);
+      this.nome = municipio
     }
     console.log(this.apresentacoes);
   }

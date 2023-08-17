@@ -8,16 +8,20 @@
                 <h3> Texto Completo </h3>
             </div>
             <div class="card-body" style="padding-top: 0px;">
-                <h4> Considerações </h4>
-                <ul>
-                    <li *ngFor="let consi of textoCompleto.considerandos">{{consi}}</li>
-                </ul>
-                <hr>
-                <h4> Determinações </h4>
-                <ul>
-                    <li *ngFor="let det of textoCompleto.determinacoes">{{det}}</li>
-                </ul>
-                <hr>
+                <div *ngIf="textoCompleto.determinacoes.length != 1">
+                    <h4> Considerações </h4>
+                    <ul>
+                        <li *ngFor="let consi of textoCompleto.considerandos">{{consi}}</li>
+                    </ul>
+                    <hr>
+                </div>
+                <div *ngIf="textoCompleto.determinacoes.length != 1">
+                    <h4> Determinações </h4>
+                    <ul>
+                        <li *ngFor="let det of textoCompleto.determinacoes">{{det}}</li>
+                    </ul>
+                    <hr>
+                </div>
                 <div *ngIf="textoCompleto.recomendacoes.length != 1">
                     <h4> Recomendações </h4>
                     <ul>

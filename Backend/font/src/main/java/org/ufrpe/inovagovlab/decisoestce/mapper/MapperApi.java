@@ -32,7 +32,9 @@ public class MapperApi {
             cardDto.setResultadoDecisao(process.getResultado());
             cardDto.setOrgaoReferenteDecisao(process.getNomeUjPrincipal());
             cardDto.setIdDecisao(process.getId());
+            cardDto.setNomePessoa(process.getNomePessoa());
             processosDto.add(cardDto);
+
         }
         return processosDto;
 
