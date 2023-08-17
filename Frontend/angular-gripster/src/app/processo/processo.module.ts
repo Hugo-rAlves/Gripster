@@ -4,13 +4,15 @@ import { ProcessoPageComponent } from './processo-page/processo-page.component';
 import { QuadroGeralComponent } from './quadro-geral/quadro-geral.component';
 import GeneralInformation from '../shared/model/quadro-geral-processo-model';
 import { UtilsModule } from '../utils/utils.module';
+import { QuadroTextoComponent } from './quadro-texto/quadro-texto.component';
 
 
 
 @NgModule({
   declarations: [
     ProcessoPageComponent,
-    QuadroGeralComponent
+    QuadroGeralComponent,
+    QuadroTextoComponent
   ],
   imports: [
     CommonModule,
