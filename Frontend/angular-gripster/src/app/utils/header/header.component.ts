@@ -35,6 +35,18 @@ export class HeaderComponent {
   redirecionarGestor(event:any){
     const optionValue = event.target.value;
     this.router.navigate(['/processos-gestor', optionValue])
+  
+    if(window.location.href.includes('processos-gestor')){
+      window.location.reload()
+    }
+  }
+  redirecionarMunicipio(event:any){
+    console.log('entrou aqui no redirecionar municipio')
+    const optionValue = event.target.value;
+    this.router.navigate(['/processos-municipio', optionValue])
+    if(window.location.href.includes('processos-municipio')){
+      window.location.reload()
+    }
   }
 
 }

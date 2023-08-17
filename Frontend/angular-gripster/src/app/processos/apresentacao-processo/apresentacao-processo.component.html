@@ -1,1 +1,39 @@
-<p>apresentacao-processo works!</p>
+
+<div class="container">
+    <!-- As "linhas" de coisas na tela são divididas em linhas -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="no-margins">Nome</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- As "linhas" de coisas na tela são divididas em linhas -->
+    <div class="row">
+        <!-- dentro das linhas se coloca quadros com tamanho de colunas que devem somar tamanho 12 -->
+        <div class="col-md-6" *ngFor="let processo of apresentacoes">
+            <div class="card">
+                <div class="card-header">
+                    <b><h5>{{processo.orgaoReferenteDecisao}}</h5></b>
+                    <label class="pull-right font-bold text-success">Ano: {{processo.anoEmJulgamento}}</label>
+                    <br>
+                    <h5>{{processo.cidade}}</h5>
+                </div>
+                <div class="card-body" style="padding-top: 0px;">
+                    <h2 class="no-margins">{{processo.resultadoDecisao}}</h2>
+                    <a [href]="'/processo/'+processo.idDecisao" class="btn btn-block btn-outline btn-primary" style="margin-top: 10px;">Ver processo</a>
+                </div>
+                <div class="ibox-footer">
+                    Data da decisão:
+                    <strong>
+                        <span class="text-success" th:text="${#temporals.format(processo.getDataJulgamento(),'dd/MM/yyyy')}">01/01/2022</span>
+                    </strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- fecha o container e o content -->
+</div>
