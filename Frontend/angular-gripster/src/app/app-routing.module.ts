@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProcessoPageComponent } from './processo/processo-page/processo-page.component';
-import { ProcessosGestorPageComponent } from './processos-gestor-page/processos-gestor-page.component';
+import { ProcessosGestorPageComponent } from './processos/processos-gestor-page/processos-gestor-page.component';
 
 const routes: Routes = [
   {
