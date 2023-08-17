@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProcessosModule } from './processos/processos.module';
 import { ProcessosGestorPageComponent } from './processos/processos-gestor-page/processos-gestor-page.component';
 import { ProcessoPageComponent } from './processo/processo-page/processo-page.component';
+import { EntradaModule } from './entrada/entrada.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ProcessoPageComponent } from './processo/processo-page/processo-page.co
     AppRoutingModule,
     ProcessoModule,
     HttpClientModule,
-    ProcessosModule
+    ProcessosModule,
+    EntradaModule
   ],
   providers: [],
   bootstrap: [AppComponent]
