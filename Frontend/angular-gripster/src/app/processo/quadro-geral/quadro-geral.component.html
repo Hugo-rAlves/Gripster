@@ -1,0 +1,129 @@
+
+<div class="container">
+    
+    <div class="col-md-12">
+        <div class="card bg-light mb-3" style="margin-top: 3rem;">
+            <div class="card-header">
+                <h3> Análise de Contas </h3>
+            </div>
+            <div class="card-body" style="padding-top: 0px;">
+                <div class="row">
+                    <div class="col-lg-8">
+                       <div class="card-text">
+                        <h5>
+                            <small>
+                                <i class="fa fa-file"> </i> Número do processo:
+                                <span class="tag-text">{{informacaoGeral.numeroProcesso}}</span>
+                            </small>
+                        </h5>
+                        
+                    </div>
+                        
+                        <h5 class="basic-info">
+                            <small>
+                                <i class="fa fa-building"> </i> Instituição:
+                                <span class="tag-text" >{{informacaoGeral.instituicao}}</span>
+                            </small>
+                        </h5>
+                        <h5 class="basic-info">
+                            <small>
+                                <i class="fa fa-bank"> </i> Municipio:
+                                <span class="tag-text">{{informacaoGeral.municipio}}</span>
+                            </small>
+                        </h5>
+                        <h5 class="basic-info">
+                            <small>
+                                <i class="fa fa-address-card fa"> </i> Gestor(a):
+                                <span class="tag-text" th:text="${processo.getNomePessoa()}">{{informacaoGeral.gestor}}</span>
+                            </small>
+                        </h5>
+                        <h5 class="basic-info">
+                            <small>
+                                <i class="fa fa-id-badge"> </i> Relator(a):
+                                <span class="tag-text" th:text="${processo.getRelator()}">{{informacaoGeral.relatorDecisao}}</span>
+                            </small>
+                        </h5>
+
+                        <h5 class="basic-info">
+                            <small>
+                                <i class="fa fa-calendar"> </i> Ano da Gestão:
+                                <span class="tag-text" th:text="${processo.getAnoExercicio()}">{{informacaoGeral.anoDaGestao}}</span>
+                            </small>
+                        </h5>
+                        <h5 class="basic-info">
+                            <small>
+                                <i class="fa fa-calendar"> </i> Data do Jugamento:
+                                <span class="tag-text" th:text="${#temporals.format(processo.getDataJulgamento(),'dd/MM/yyyy')}">{{informacaoGeral.dataJulgamento}}</span>
+                            </small>
+                        </h5>
+                
+                        <h5 class="basic-info">
+                            <small>
+                                <i class="fa fa-book"> </i> Tipo:
+                                <span class="tag-text" th:text="${processo.getTipo()}">{{informacaoGeral.tipoOrgao}}</span>
+                            </small>
+                        </h5>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div *ngIf="informacaoGeral.resultado === 'Aprovação'">
+                            <div class="card text-white bg-success mb-3" style="max-width: 18rem; margin-top: 10px;">
+                                <div class="card-body">
+                                    <div class="row" style="align-items: center">
+                                        <div class="col-sm-4">
+                                            <i class="fa fa-arrow-circle-up fa-5x"></i>
+                                        </div>
+                                        <div class="col-sm-8 text-right" >
+                                            <h5 class="font-bold" th:text="${processo.getResultado()}"><strong>{{informacaoGeral.resultado}}</strong></h5>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>                      
+                        </div>
+                        <div *ngIf="informacaoGeral.resultado === 'Aprovação com ressalvas'">
+                            <div class="card text-white bg-warning mb-3" style="max-width: 18rem; margin-top: 10px;">
+                                <div class="card-body">
+                                    <div class="row" style="align-items: center">
+                                        <div class="col-sm-4">
+                                            <i class="fa fa-arrow-circle-left fa-5x"></i>
+                                        </div>
+                                        <div class="col-sm-8 text-right" >
+                                            <h5 class="font-bold" th:text="${processo.getResultado()}"><strong>{{informacaoGeral.resultado}}</strong></h5>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>                            
+                        </div>
+                        <div *ngIf="informacaoGeral.resultado === 'Rejeição'">
+                            <div class="card text-white bg-danger mb-3" style="max-width: 18rem; margin-top: 10px;">
+                                <div class="card-body">
+                                    <div class="row" style="align-items: center">
+                                        <div class="col-sm-4">
+                                            <i class="fa fa-arrow-circle-down fa-5x"></i>
+                                        </div>
+                                        <div class="col-sm-8 text-right" >
+                                            <h5 class="font-bold" th:text="${processo.getResultado()}"><strong>{{informacaoGeral.resultado}}</strong></h5>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>             
+                        </div>     
+                        <h5>
+                            <small>
+                                <a target="_blank" [href]="informacaoGeral.linkDocumentoOriginal"><i class="fa-solid fa-file-pdf"> </i> Ver documento original</a>
+                                <br>
+                                <a target="_blank" [href]="informacaoGeral.linkAcompanharProcesso"><i class="fa fa-list-alt"> </i> Acompanhar o processo</a>
+                            </small>
+                        </h5>
+                        <h5 class="basic-info">
+                            <small>
+                                <i class="fa-solid fa-thermometer"> </i> Status:
+                                <span class="tag-text">{{informacaoGeral.statusDecisao}}</span>
+                            </small>
+                        </h5>               
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
