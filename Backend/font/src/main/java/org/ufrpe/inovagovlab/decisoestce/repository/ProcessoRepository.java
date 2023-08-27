@@ -77,4 +77,10 @@ public interface ProcessoRepository extends JpaRepository<Processo, String> {
     Integer countNumeroMunicipios();
     @Query(value = "select count(distinct nome_pessoa) from processo where tipo='governo' and modalidade ='prestação de contas'", nativeQuery = true)
     Integer countNumeroGestores();
+
+    @Query(value = "select nome_municipio_principal, cod_municipio, count(id) from processo \n" +
+            "join local as l on processo.nome_municipio_principal = l.nome_municipio\n" +
+            "group by nome_municipio_principal;",
+            nativeQuery = true)
+    List<Object[]> getDadosMapa();
 }

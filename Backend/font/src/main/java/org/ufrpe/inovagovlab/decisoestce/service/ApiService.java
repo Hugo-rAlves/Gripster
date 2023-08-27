@@ -2,6 +2,7 @@ package org.ufrpe.inovagovlab.decisoestce.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.ufrpe.inovagovlab.decisoestce.mapper.MapperApi;
 import org.ufrpe.inovagovlab.decisoestce.model.Processo;
@@ -11,6 +12,9 @@ import org.ufrpe.inovagovlab.decisoestce.repository.DeterminacaoRepository;
 import org.ufrpe.inovagovlab.decisoestce.repository.ProcessoRepository;
 import org.ufrpe.inovagovlab.decisoestce.repository.RecomendacaoRepository;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +33,8 @@ public class ApiService {
     @Autowired
     private DeterminacaoRepository determinacaoRepository;
 
-
+    @Value("${peMap.path}")
+    private String peMap;
 
 
     public List<String> getAllIdsProcessos() throws Exception {
@@ -129,5 +134,15 @@ public class ApiService {
     public Integer getNumeroGestores() {
         Integer numeroGestores = processoRepository.countNumeroGestores();
         return numeroGestores;
+    }
+
+    public List<CodigoValorMuncipio> getDadosMapa() {
+        List<Object[]> query = processoRepository.getDadosMapa();
+        List<CodigoValorMuncipio> listaMunicipios = map.mapToMunicipiosValores(query);
+        return listaMunicipios;
+    }
+    public Object getJson() throws IOException {
+        String str = new String(Files.readAllBytes(Paths.get(peMap)));
+        return str;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.ufrpe.inovagovlab.decisoestce.model.dto.*;
 import org.ufrpe.inovagovlab.decisoestce.service.ApiService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -83,5 +84,14 @@ public class ApiController {
         return ResponseEntity.ok("Texto Favoritado");
     }
 
+    @GetMapping(value = "/get-dados-mapa", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getDadosParaCriarMapa(){
+        List<CodigoValorMuncipio> munCodValue = apiService.getDadosMapa();
+        return ResponseEntity.ok(munCodValue);
+    }
+    @GetMapping(value= "/getJson/", produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getGeoJson() throws IOException {
+        return ResponseEntity.ok(apiService.getJson());
+    }
 
 }
