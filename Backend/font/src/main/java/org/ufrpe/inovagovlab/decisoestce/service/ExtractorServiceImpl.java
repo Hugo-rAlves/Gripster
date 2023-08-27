@@ -877,6 +877,8 @@ public class ExtractorServiceImpl{
                 }
                 if(contador%100 == 0){
                     System.out.println("Processo : " + contador );
+                }else{
+                    System.out.println(contador);
                 }
             }
         } catch (URISyntaxException e) {

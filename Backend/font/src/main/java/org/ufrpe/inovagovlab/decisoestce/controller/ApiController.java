@@ -73,10 +73,15 @@ public class ApiController {
         List<CardProcessoList> gestores = apiService.getProcessosMunicipio(id);
         return ResponseEntity.ok(gestores);
     }
+    @GetMapping(value = "/get-limite-de-gastos/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getLimiteDeGastosProcesso(@PathVariable String id){
+        return null;
+    }
     @PostMapping(value = "/favoritar-texto-tribunal/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> favoritarTextoDoTribunal(@PathVariable String id){
         apiService.favoritarTexto(id);
         return ResponseEntity.ok("Texto Favoritado");
     }
+
 
 }
