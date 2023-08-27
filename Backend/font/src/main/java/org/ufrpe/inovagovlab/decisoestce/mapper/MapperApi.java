@@ -2,10 +2,7 @@ package org.ufrpe.inovagovlab.decisoestce.mapper;
 
 import org.springframework.stereotype.Component;
 import org.ufrpe.inovagovlab.decisoestce.model.Processo;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.CardInformacoesGeraisDto;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.CardProcessoList;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.GestoresDTO;
-import org.ufrpe.inovagovlab.decisoestce.model.dto.MunicipiosDto;
+import org.ufrpe.inovagovlab.decisoestce.model.dto.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,5 +65,19 @@ public class MapperApi {
         dto.setStatusDecisao(processo.getStatusProcesso());
 
         return dto;
+    }
+
+    public List<CodigoValorMuncipio> mapToMunicipiosValores(List<Object[]> query) {
+        List<CodigoValorMuncipio> lista = new ArrayList<>();
+
+        for (Object[] o :
+                query) {
+            CodigoValorMuncipio temp = new CodigoValorMuncipio();
+            temp.setId(o[1].toString());
+            temp.setValor(Double.parseDouble(o[2].toString()));
+            lista.add(temp);
+        }
+        return lista;
+
     }
 }
