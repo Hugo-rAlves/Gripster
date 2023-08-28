@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="decisoestce@decisoestce.mysql.database.azure.com" uuid="1c442b8e-6e4d-45a2-b516-29d655790612">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://decisoestce.mysql.database.azure.com:3306/decisoestce?serverTimezone=UTC&amp;useSSL=true&amp;requireSSL=false</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="AZURE_SQL_DB_SERVER" value="/subscriptions/61d704a8-ebfe-436a-a3fb-a1b302f6827f/resourceGroups/rg-app-Gripster-230824105957/providers/Microsoft.DBforMySQL/flexibleServers/decisoestce" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>
