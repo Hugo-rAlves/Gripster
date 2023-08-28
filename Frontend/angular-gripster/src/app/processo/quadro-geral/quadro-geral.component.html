@@ -27,7 +27,7 @@
                         </h5>
                         <h5 class="basic-info">
                             <small>
-                                <i class="fa fa-bank"> </i> Municipio:
+                                <i class="fa fa-bank"> </i> Município:
                                 <span class="tag-text">{{informacaoGeral.municipio}}</span>
                             </small>
                         </h5>
@@ -52,7 +52,7 @@
                         </h5>
                         <h5 class="basic-info">
                             <small>
-                                <i class="fa fa-calendar"> </i> Data do Jugamento:
+                                <i class="fa fa-calendar"> </i> Data do Julgamento:
                                 <span class="tag-text" th:text="${#temporals.format(processo.getDataJulgamento(),'dd/MM/yyyy')}">{{informacaoGeral.dataJulgamento}}</span>
                             </small>
                         </h5>
@@ -110,9 +110,9 @@
                         </div>     
                         <h5>
                             <small>
-                                <a target="_blank" [href]="informacaoGeral.linkDocumentoOriginal"><i class="fa-solid fa-file-pdf"> </i> Ver documento original</a>
+                                <a target="_blank" [href]="informacaoGeral.linkDocumentoOriginal" class="custom-link"><i class="fa-solid fa-file-pdf"> </i> Ver documento original</a>
                                 <br>
-                                <a target="_blank" [href]="informacaoGeral.linkAcompanharProcesso"><i class="fa fa-list-alt"> </i> Acompanhar o processo</a>
+                                <a target="_blank" [href]="informacaoGeral.linkAcompanharProcesso" class="custom-link"><i class="fa fa-list-alt"> </i> Acompanhar o processo</a>
                             </small>
                         </h5>
                         <h5 class="basic-info">

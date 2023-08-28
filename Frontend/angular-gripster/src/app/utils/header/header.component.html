@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav"  style="justify-content: flex-end; display: flex;">
         <li class="nav-item">
-        <select style="max-width: 250px; min-width: 250px; margin:0px 5px;" (change)="redirecionarGestor($event)">
+        <select class= "rounded-select" style="max-width: 250px; min-width: 250px; margin:0px 5px;" (change)="redirecionarGestor($event)">
             <option>Selecione Gestor</option>
             <option *ngFor="let pessoa of pessoas" [value] = "pessoa.name">
                 {{pessoa.name}}
@@ -16,7 +16,7 @@
         </select>
         </li>
         <li class="nav-item">
-            <select style="max-width: 250px; min-width: 250px; margin:0px 5px;" (change)="redirecionarMunicipio($event)">
+            <select class= "rounded-select" style="max-width: 250px; min-width: 250px; margin:0px 5px;" (change)="redirecionarMunicipio($event)">
                 <option>Selecione Município</option>
                 <option *ngFor="let municipio of municipios" [value] = "municipio.nomeMunicipio" >
                     {{municipio.nomeMunicipio}}
