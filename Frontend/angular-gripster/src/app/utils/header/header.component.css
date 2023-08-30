@@ -1,0 +1,23 @@
+.navbar{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.navbar-brand{
+    margin-left: 10px;
+    padding: 10px 20px;
+    color: #1AB394;
+}
+
+.navbar-nav{
+    justify-content: flex-end; 
+    display: flex;
+}
+
+.mr-auto{
+    margin-right: auto!important;
+}
+
+.rounded-select{
+    border-radius: 5px;
+}

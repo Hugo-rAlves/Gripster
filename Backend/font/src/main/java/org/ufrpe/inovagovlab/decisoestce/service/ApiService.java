@@ -1,5 +1,14 @@
 package org.ufrpe.inovagovlab.decisoestce.service;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -11,6 +20,7 @@ import org.ufrpe.inovagovlab.decisoestce.repository.DeterminacaoRepository;
 import org.ufrpe.inovagovlab.decisoestce.repository.ProcessoRepository;
 import org.ufrpe.inovagovlab.decisoestce.repository.RecomendacaoRepository;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -83,16 +93,36 @@ public class ApiService {
 
     }
 
-    public  CardDecisaoSimplificada getSimplificacaoDecisao(String id) {
-        String simplConsiracoes = considerandoRepository.getSimplificacao(id).orElseThrow();
-        String simplRecomendacoes = recomendacaoRepository.getSimplificacao(id).orElseThrow();
-        String simplDeterminacoes = determinacaoRepository.getSimplificacao(id).orElseThrow();
+    public  CardDecisaoSimplificada getSimplificacaoDecisao(String id) throws IOException {
+        String simplConsiracoes = considerandoRepository.getTextoCompleto(id).orElseThrow();
+        String simplRecomendacoes = recomendacaoRepository.getTextoCompleto(id).orElseThrow();
+        String simplDeterminacoes = determinacaoRepository.getTextoCompleto(id).orElseThrow();
+
+        HttpClient httpClient = HttpClients.createDefault();
+        HttpPost request = new HttpPost("https://api.openai.com/v1/chat/completions");
+
+        // Configurar cabeçalhos e corpo da solicitação
+        request.setHeader("Content-Type", "application/json");
+        request.setHeader("Authorization", "Bearer \\API KEY");
+
+        String requestBodyConsideracoes = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [{\"role\": \"system\", \"content\": \"You are a legal assistant that helps simplify legal texts for common language in brazilian portuguese.\"}, {\"role\": \"user\", \"content\": \"" + simplConsiracoes + "\"}]}";
+        String requestBodyRecomendacoes = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [{\"role\": \"system\", \"content\": \"You are a legal assistant that helps simplify legal texts for common language in brazilian portuguese.\"}, {\"role\": \"user\", \"content\": \"" + simplRecomendacoes + "\"}]}";
+        String requestBodyDeterminacoes = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [{\"role\": \"system\", \"content\": \"You are a legal assistant that helps simplify legal texts for common language in brazilian portuguese.\"}, {\"role\": \"user\", \"content\": \"" + simplDeterminacoes + "\"}]}";
+
+        request.setEntity(new StringEntity(requestBodyConsideracoes));
+        HttpResponse responseConsideracoes = httpClient.execute(request);
+
+        request.setEntity(new StringEntity(requestBodyRecomendacoes));
+        HttpResponse responseRecomendacoes = httpClient.execute(request);
+
+        request.setEntity(new StringEntity(requestBodyDeterminacoes));
+        HttpResponse responseDeterminacoes = httpClient.execute(request);
 
         CardDecisaoSimplificada card = new CardDecisaoSimplificada();
 
-        card.setTextoSimplificadoRecomendacao(simplRecomendacoes);
-        card.setTextoSimplificadoDeterminando(simplDeterminacoes);
-        card.setTextoSimplificadoConsiderando(simplConsiracoes);
+        card.setTextoSimplificadoConsiderando(extractSimplifiedTextFromJSON(simplConsiracoes));
+        card.setTextoSimplificadoRecomendacao(extractSimplifiedTextFromJSON(simplRecomendacoes));
+        card.setTextoSimplificadoDeterminando(extractSimplifiedTextFromJSON(simplDeterminacoes));
 
         return card;
     }
@@ -129,5 +159,25 @@ public class ApiService {
     public Integer getNumeroGestores() {
         Integer numeroGestores = processoRepository.countNumeroGestores();
         return numeroGestores;
+    }
+
+    public String extractSimplifiedTextFromJSON(String jsonResponse) {
+        JSONParser parser = new JSONParser();
+
+        try {
+            JSONObject responseObj = (JSONObject) parser.parse(jsonResponse);
+            JSONArray choicesArray = (JSONArray) responseObj.get("choices");
+
+            if (choicesArray != null && choicesArray.size() > 0) {
+                JSONObject messageObj = (JSONObject) ((JSONObject) choicesArray.get(0)).get("message");
+                if (messageObj != null) {
+                    return (String) messageObj.get("content");
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 }
