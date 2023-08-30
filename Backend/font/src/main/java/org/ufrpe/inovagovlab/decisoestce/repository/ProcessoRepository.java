@@ -68,6 +68,8 @@ public interface ProcessoRepository extends JpaRepository<Processo, String> {
 
     @Query(value = "select distinct nome_municipio_principal from processo where tipo='governo' and modalidade='prestação de contas';", nativeQuery = true)
     Optional<List<String>> findMunicipiosPrestacaoDeContas();
+    @Query(value = "select * from processo where id = ?1", nativeQuery = true)
+    Optional<Processo> getSimplificacaoTextualDoProcesso(String id);
     @Query(value = "select * from processo where tipo='governo' and modalidade = 'prestação de contas' and nome_municipio_principal= ?1 ;", nativeQuery = true)
     Optional<List<Processo>> findProcessosMunicipio(String id);
 
@@ -77,4 +79,7 @@ public interface ProcessoRepository extends JpaRepository<Processo, String> {
     Integer countNumeroMunicipios();
     @Query(value = "select count(distinct nome_pessoa) from processo where tipo='governo' and modalidade ='prestação de contas'", nativeQuery = true)
     Integer countNumeroGestores();
+
+
+
 }

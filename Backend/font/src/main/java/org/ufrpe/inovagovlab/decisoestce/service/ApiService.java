@@ -11,7 +11,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.ufrpe.inovagovlab.decisoestce.mapper.MapperApi;
 import org.ufrpe.inovagovlab.decisoestce.model.Processo;
 import org.ufrpe.inovagovlab.decisoestce.model.dto.*;
@@ -38,6 +41,15 @@ public class ApiService {
     private RecomendacaoRepository recomendacaoRepository;
     @Autowired
     private DeterminacaoRepository determinacaoRepository;
+
+    @Qualifier("openaiRestTemplate")
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${openai.model}")
+    private String model;
+    @Value("${openai.api.url}")
+    private String apiUrl;
 
 
 
@@ -94,39 +106,46 @@ public class ApiService {
     }
 
     public  CardDecisaoSimplificada getSimplificacaoDecisao(String id) throws IOException {
-        String simplConsiracoes = considerandoRepository.getTextoCompleto(id).orElseThrow();
-        String simplRecomendacoes = recomendacaoRepository.getTextoCompleto(id).orElseThrow();
-        String simplDeterminacoes = determinacaoRepository.getTextoCompleto(id).orElseThrow();
-
-        HttpClient httpClient = HttpClients.createDefault();
-        HttpPost request = new HttpPost("https://api.openai.com/v1/chat/completions");
-
-        // Configurar cabeçalhos e corpo da solicitação
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Authorization", "Bearer \\API KEY");
-
-        String requestBodyConsideracoes = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [{\"role\": \"system\", \"content\": \"You are a legal assistant that helps simplify legal texts for common language in brazilian portuguese.\"}, {\"role\": \"user\", \"content\": \"" + simplConsiracoes + "\"}]}";
-        String requestBodyRecomendacoes = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [{\"role\": \"system\", \"content\": \"You are a legal assistant that helps simplify legal texts for common language in brazilian portuguese.\"}, {\"role\": \"user\", \"content\": \"" + simplRecomendacoes + "\"}]}";
-        String requestBodyDeterminacoes = "{\"model\": \"gpt-3.5-turbo\", \"messages\": [{\"role\": \"system\", \"content\": \"You are a legal assistant that helps simplify legal texts for common language in brazilian portuguese.\"}, {\"role\": \"user\", \"content\": \"" + simplDeterminacoes + "\"}]}";
-
-        request.setEntity(new StringEntity(requestBodyConsideracoes));
-        HttpResponse responseConsideracoes = httpClient.execute(request);
-
-        request.setEntity(new StringEntity(requestBodyRecomendacoes));
-        HttpResponse responseRecomendacoes = httpClient.execute(request);
-
-        request.setEntity(new StringEntity(requestBodyDeterminacoes));
-        HttpResponse responseDeterminacoes = httpClient.execute(request);
 
         CardDecisaoSimplificada card = new CardDecisaoSimplificada();
 
-        card.setTextoSimplificadoConsiderando(extractSimplifiedTextFromJSON(simplConsiracoes));
-        card.setTextoSimplificadoRecomendacao(extractSimplifiedTextFromJSON(simplRecomendacoes));
-        card.setTextoSimplificadoDeterminando(extractSimplifiedTextFromJSON(simplDeterminacoes));
+        Processo processo = processoRepository.getSimplificacaoTextualDoProcesso(id).orElseThrow();
 
+        if( processo.getSuperSummary() == null){
+            //        String diretiva = "O texto abaixo tem um vocabulário muito jurídico e ele também é muito extenso. Resuma o texto, pegando o que tem de mais importante e com uma linguagem bem simples: ";
+            String diretiva = "O texto enviado a seguir trata de uma decisão judicial das contas do governo, que tem como possível resultado Aprovado, Reprovado e Aprovado com Ressalvas. Simplifique o texto enviado a Seguir: ";
+            TextoCompletoDTO textCompleto = getTextoCompletoProcesso(id);
+            String texto = "";
+
+            if(textCompleto.getConsiderandos()!=null){
+                texto = texto + String.join(" ",textCompleto.getConsiderandos());
+            }
+            if (textCompleto.getRecomendacoes()!=null){
+                texto = texto + String.join(" ",textCompleto.getRecomendacoes());
+            }
+            if (textCompleto.getDeterminacoes()!=null){
+                texto = texto + String.join(" ",textCompleto.getDeterminacoes());
+            }
+
+            String prompt = diretiva + String.join(" ",texto);
+            ChatResponse cr = getRespostaGpt(prompt);
+            String simplificacao = cr.getChoices().get(0).getMessage().getContent();
+            processo.setSuperSummary(simplificacao);
+            processoRepository.save(processo);
+            card.setTextoSimplificado(simplificacao);
+
+        }else {
+            card.setTextoSimplificado(processo.getSuperSummary());
+        }
         return card;
+
     }
 
+    private ChatResponse getRespostaGpt(String prompt){
+        ChatRequest request = new ChatRequest(model, prompt);
+        ChatResponse response = restTemplate.postForObject(apiUrl, request, ChatResponse.class);
+        return response;
+    }
     public TextoCompletoDTO getTextoCompletoProcesso(String id) {
         String texto = "";
         TextoCompletoDTO textoCompletoDTO = new TextoCompletoDTO();

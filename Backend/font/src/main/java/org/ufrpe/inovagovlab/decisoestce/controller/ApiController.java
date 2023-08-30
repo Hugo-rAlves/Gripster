@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.ufrpe.inovagovlab.decisoestce.model.dto.*;
 import org.ufrpe.inovagovlab.decisoestce.service.ApiService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -59,7 +60,7 @@ public class ApiController {
         return ResponseEntity.ok(informationBoard);
     }
     @GetMapping(value = "/get-simplificacao-decisao/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getSimplificacaoDecisao(@PathVariable String id){
+    public ResponseEntity<?> getSimplificacaoDecisao(@PathVariable String id) throws IOException {
         CardDecisaoSimplificada decisaoSimplificada = apiService.getSimplificacaoDecisao(id);
         return ResponseEntity.ok(decisaoSimplificada);
     }
