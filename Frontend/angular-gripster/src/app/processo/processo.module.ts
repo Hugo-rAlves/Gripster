@@ -5,6 +5,7 @@ import { QuadroGeralComponent } from './quadro-geral/quadro-geral.component';
 import GeneralInformation from '../shared/model/quadro-geral-processo-model';
 import { UtilsModule } from '../utils/utils.module';
 import { QuadroTextoComponent } from './quadro-texto/quadro-texto.component';
+import { SimplificacaoComponent } from './simplificacao/simplificacao.component';
 
 
 
@@ -12,7 +13,8 @@ import { QuadroTextoComponent } from './quadro-texto/quadro-texto.component';
   declarations: [
     ProcessoPageComponent,
     QuadroGeralComponent,
-    QuadroTextoComponent
+    QuadroTextoComponent,
+    SimplificacaoComponent
   ],
   imports: [
     CommonModule,

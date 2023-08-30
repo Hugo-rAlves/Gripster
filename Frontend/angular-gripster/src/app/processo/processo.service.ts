@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import GeneralInformation from '../shared/model/quadro-geral-processo-model';
 import { HttpClient } from '@angular/common/http';
 import TextoCompleto from '../shared/model/texto-completo-model';
+import CardDecisaoSimplificada from '../shared/model/simplificacao-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProcessoService {
+  
 
  
 
@@ -23,6 +25,11 @@ export class ProcessoService {
     const urlEndpoint = this.url +'get-texto-completo' + '/' + processo_id;
     let texto = this.http.get<TextoCompleto>(urlEndpoint).toPromise()
     return texto;
+  }
+  getSimplificacao(processo_id: String): Promise<CardDecisaoSimplificada> {
+    const urlEndpoint = this.url +'get-simplificacao-decisao' + '/' + processo_id;
+    let simplificacao = this.http.get<CardDecisaoSimplificada>(urlEndpoint).toPromise()
+    return simplificacao;
   }
 
 }
