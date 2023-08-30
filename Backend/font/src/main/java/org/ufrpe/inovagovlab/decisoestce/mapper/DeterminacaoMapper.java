@@ -9,13 +9,13 @@ import java.util.List;
 @Component
 public class DeterminacaoMapper {
 
-    public List<String> formataTexto(Determinacao determinacao){
-        //return Arrays.asList(determinacao.getTextoLimpo().split(";"));
-        return Arrays.asList(determinacao.getTextoLimpo().split("#####"));
-    }
-
-    public List<String> formataTextoSumarios(Determinacao determinacao){
-        //return Arrays.asList(determinacao.getTextoLimpo().split(";"));
-        return Arrays.asList(determinacao.getSumario().split("#####"));
-    }
+//    public List<String> formataTexto(Determinacao determinacao){
+//        //return Arrays.asList(determinacao.getTextoLimpo().split(";"));
+//        return Arrays.asList(determinacao.getTextoLimpo().split("#####"));
+//    }
+//
+//    public List<String> formataTextoSumarios(Determinacao determinacao){
+//        //return Arrays.asList(determinacao.getTextoLimpo().split(";"));
+//        return Arrays.asList(determinacao.getSumario().split("#####"));
+//    }
 }

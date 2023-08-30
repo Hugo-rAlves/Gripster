@@ -19,7 +19,6 @@ public class LimiteDeGastosMapper {
         if (node.get("ds_texto_detalhado") != null) {
             String textoDetalhado = node.get("ds_texto_detalhado").asText();
             entity.setDsTextoDetalhado(textoDetalhado);
-
         }
         if (node.get("tp_area_aplicacao") != null)
             entity.setTpAreaAplicacao(node.get("tp_area_aplicacao").asText());

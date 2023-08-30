@@ -9,13 +9,13 @@ import java.util.List;
 @Component
 public class ConsiderandoMapper {
 
-    public List<String> formataTexto(Considerando considerando){
-        //return Arrays.asList(considerando.getTextoLimpo().split("; "));
-        return Arrays.asList(considerando.getTextoLimpo().split("#####"));
-    }
-
-    public List<String> formataTextoSumarios(Considerando considerando){
-        //return Arrays.asList(considerando.getTextoLimpo().split("; "));
-        return Arrays.asList(considerando.getSumario().split("#####"));
-    }
+//    public List<String> formataTexto(Considerando considerando){
+//        //return Arrays.asList(considerando.getTextoLimpo().split("; "));
+//        return Arrays.asList(considerando.getTextoLimpo().split("#####"));
+//    }
+//
+//    public List<String> formataTextoSumarios(Considerando considerando){
+//        //return Arrays.asList(considerando.getTextoLimpo().split("; "));
+//        return Arrays.asList(considerando.getSumario().split("#####"));
+//    }
 }

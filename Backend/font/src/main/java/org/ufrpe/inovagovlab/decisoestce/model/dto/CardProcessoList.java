@@ -1,10 +1,12 @@
 package org.ufrpe.inovagovlab.decisoestce.model.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
 @Data
+@EqualsAndHashCode
 public class CardProcessoList {
     private String orgaoReferenteDecisao;
     private String cidade;

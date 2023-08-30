@@ -34,7 +34,6 @@ public class MapperApi {
             cardDto.setIdDecisao(process.getId());
             cardDto.setNomePessoa(process.getNomePessoa());
             processosDto.add(cardDto);
-
         }
         return processosDto;
 
