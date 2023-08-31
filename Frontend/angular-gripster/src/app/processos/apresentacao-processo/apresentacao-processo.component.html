@@ -1,6 +1,5 @@
 
 <div class="container">
-    <!-- As "linhas" de coisas na tela são divididas em linhas -->
     <div class="row">
         <div class="col-md-12">
             <div class="card text-white bg-dark mb-3" style="margin: 20px 0px;">
@@ -10,9 +9,7 @@
             </div>
         </div>
     </div>
-    <!-- As "linhas" de coisas na tela são divididas em linhas -->
     <div class="row">
-        <!-- dentro das linhas se coloca quadros com tamanho de colunas que devem somar tamanho 12 -->
         <div class="col-md-6" *ngFor="let processo of apresentacoes">
             <div class="card" style="margin: 10px 0px;">
                 <div class="card-header">
@@ -22,22 +19,19 @@
                             <br>
                             <b>{{processo.nomePessoa}}</b>
                         </div>
-                        <div class="col-4" style="text-align: right;">
-                            <label class="pull-right font-bold text-success">Ano: {{processo.anoEmJulgamento}}</label>
+                        <div class="col-4">
+                            <label class="pull-right text-success">Ano: {{processo.anoEmJulgamento}}</label>
                         </div>
                         
                     </div>                    
                   
                   
                 </div>
-                <div class="card-body" style="padding-top: 0px;">
-                    <div class="row">
+                <div class="card-body" style="padding-top: 0.6875rem;">
+                    <div class="ibox-content">
                         <h5>Município: {{processo.cidade}}</h5>
                         <h2 class="no-margins">{{processo.resultadoDecisao}}</h2>
-                    </div>
-                    <div class="row">
                         <a [href]="'/processo/'+processo.idDecisao" class="btn btn-block btn-outline btn-primary" style="margin-top: 10px;"><b>Ver processo</b></a>
-
                     </div>
                     
                 </div>
@@ -51,5 +45,4 @@
         </div>
     </div>
 
-    <!-- fecha o container e o content -->
 </div>

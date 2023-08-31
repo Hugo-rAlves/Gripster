@@ -1,0 +1,47 @@
+.col-4{
+    text-align: right;
+    font-weight: 500;
+}
+
+.btn-outline {
+    background-color: transparent;
+    transition: all .5s;
+    color: #1AB394;
+}
+  
+.btn-primary {
+  
+    border-color: #1AB394;
+}
+  
+.btn {
+    font-size: inherit;
+}
+  
+.btn-block {
+    display: block;
+    width: 100%;
+}
+  
+.a {
+    cursor: pointer;
+}
+  
+.btn-outline:hover {
+    background-color: #1AB394;
+    color: white;
+}
+  
+.btn-outline:hover {
+    box-shadow: 0 0 10px #1AB394;
+}
+
+.ibox-footer{
+    padding: 0.625rem 0.9375rem;
+    border-top: 0.0625rem solid #E7EAEC;
+}
+
+.text-success{
+    color:#1C84C6 !important;
+    font-size: 14px;
+}
