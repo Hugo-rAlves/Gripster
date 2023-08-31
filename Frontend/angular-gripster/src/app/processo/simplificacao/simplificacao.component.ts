@@ -13,6 +13,7 @@ export class SimplificacaoComponent {
   processo_id:String;
 
   cardSimplificacao:CardDecisaoSimplificada;
+  loading: boolean = true;
   
   constructor(private service:ProcessoService){
 
@@ -21,8 +22,15 @@ export class SimplificacaoComponent {
     this.fetchTextoCompleto(this.processo_id)
   }
   async fetchTextoCompleto(processo_id:String) {
+    try{
       this.cardSimplificacao = await this.service.getSimplificacao(processo_id);
+      this.loading = false;
       console.log(this.cardSimplificacao)
+    }catch (error) {
+      console.error('Erro ao buscar os dados:', error);
+      this.loading = false;
+    }
+      
   }
 
 }

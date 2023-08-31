@@ -10,21 +10,21 @@
             <div class="card-body" style="padding-top: 0px;">
                 <div *ngIf="textoCompleto.considerandos.length != 1">
                     <h4> Considerações </h4>
-                    <ul>
+                    <ul class="justified-text">
                         <li *ngFor="let consi of textoCompleto.considerandos">{{consi}}</li>
                     </ul>
                     <hr>
                 </div>
                 <div *ngIf="textoCompleto.determinacoes.length != 1">
                     <h4> Determinações </h4>
-                    <ul>
+                    <ul class="justified-text">
                         <li *ngFor="let det of textoCompleto.determinacoes">{{det}}</li>
                     </ul>
                     <hr>
                 </div>
                 <div *ngIf="textoCompleto.recomendacoes.length != 1">
                     <h4> Recomendações </h4>
-                    <ul>
+                    <ul class="justified-text">
                         <li *ngFor="let rec of textoCompleto.recomendacoes">{{rec}}</li>
                     </ul>
                     <hr>
