@@ -5,8 +5,13 @@
             <div class="card-header">
                 <h3> Simplificação </h3>
             </div>
-            <div class="card-body" style="padding-top: 0px;">                  
-                {{cardSimplificacao.textoSimplificado}}                
+            <div class="card-body" style="padding-top: 0px;"> 
+                <div *ngIf="loading">
+                    <i class="fa fa-spinner fa-spin"></i> Simplificando texto...
+                </div>
+                <div class = justified-text *ngIf="!loading">
+                    {{cardSimplificacao.textoSimplificado}}
+                </div>            
             </div>
         </div>
     </div>
